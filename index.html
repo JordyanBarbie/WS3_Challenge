@@ -23,7 +23,7 @@
 </head>
 
 <body>
-  <h1>Web Sprint 3 Challenge </h1>
+  <h1>Web Sprint 3 Challenge</h1>
   <p>❗ See the last script tag for instructions on completing your Challenge</p>
   <!-- widgets start, do not modify -->
   <section class="widget">
@@ -46,6 +46,44 @@
 
     // 👉 CHALLENGE 1 - Integers
     class Integers {
+      constructor(...args) {
+        this.ints = args;
+    }
+
+    getAll() {
+        return this.ints;
+    }
+
+    getEvens() {
+        return this.ints.filter(num => num % 2 === 0);
+    }
+
+    getNegatives() {
+        return this.ints.filter(num => num < 0);
+    }
+
+    getAllSquared() {
+        return this.ints.map(num => num ** 2);
+    }
+
+    pop() {
+        return this.ints.pop();
+    }
+
+    push(int) {
+        this.ints.push(int);
+        return this.ints;
+    }
+
+    getEveryNth(n) {
+        return this.ints.filter((_, index) => index % n === 0);
+    }
+
+    getAllReversed() {
+        return [...this.ints].reverse();
+    }
+  }
+
       // 🧠 Constructor takes **any** number of arguments, which are integers
       // 🧠 Instances have an `ints` property which is an array holding the integers above in the same order
       // 🧠 Implement a `getAll` method which returns the data held in the `ints` property
@@ -59,10 +97,38 @@
       // ❗ WARNING: except for `getAllReversed`, methods must respect the order of the integers
       // ❗ WARNING: note that except for push and pop, the methods don't change the `ints` property
 
-    }
+    
 
     // 👉 CHALLENGE 2 NerfGun
     class NerfGun {
+      constructor(totalProjectiles) {
+        this.totalCapacity = totalProjectiles;
+        this.currentCapacity = totalProjectiles;
+        this.safetyOn = true;
+    }
+
+    shoot() {
+        if (this.currentCapacity > 0 && !this.safetyOn) {
+            this.currentCapacity--;
+            return "Bang!";
+        }
+        return "Click!";
+    }
+
+    reload(amount) {
+        if (typeof amount !== 'number' || amount <= 0) {
+            return "Error reloading!";
+        }
+        this.currentCapacity = Math.min(this.currentCapacity + amount, this.totalCapacity);
+        return `${this.currentCapacity} projectiles left!`;
+    }
+
+    toggleSafety() {
+        this.safetyOn = !this.safetyOn;
+        return this.safetyOn ? "Safety enabled!" : "Safety disabled!";
+    }
+
+    }
       // 🧠 Constructor takes one argument: the total number of projectiles supported by the instance
       // 🧠 New instances initialize fully loaded and with the safety on
       // 🧠 Instances have a `shoot` method that takes no arguments:
@@ -77,10 +143,24 @@
       //      * When disengaging the safety, return "Safety disabled!"
       // 🌟 HINT: instances need to keep track of their maximum capacity as well as their current capacity
 
-    }
+    
 
     // 👉 CHALLENGE 3 EBook
     class EBook {
+      constructor(text, charactersPerPage) {
+        this.text = text;
+        this.charactersPerPage = charactersPerPage;
+        this.currentPage = 0;
+    }
+
+    next() {
+        const start = this.currentPage * this.charactersPerPage;
+        const end = start + this.charactersPerPage;
+        this.currentPage++;
+
+        return this.text.slice(start, end) || null;
+    }
+    }
       // 🧠 Constructor takes two arguments:
       //      * First arg is a string with the whole text of the book
       //      * Second arg is the number of characters contained in a single page of the book
@@ -96,10 +176,46 @@
       // 🌟 HINT: remember about the `slice` method which strings and arrays have
       // ❗ Feel free to implement `back`, although this is not required nor graded
 
-    }
+    
 
     // 👉 CHALLENGE 4 AntFarm
     class AntFarm {
+      constructor(...names) {
+    this.ants = names.map(name => ({ name, health: 100 }));
+  }
+
+  work() {
+    if (this.ants.length === 0) {
+      return "No ants here. Did you work them to death?";
+    }
+
+    // Store the initial number of ants
+    const initialCount = this.ants.length;
+
+    this.ants.forEach(ant => {
+      ant.health -= 20; // Decrease health
+    });
+
+    // Filter out dead ants after reducing health
+    this.ants = this.ants.filter(ant => ant.health > 0);
+
+    // Return the initial count of ants that started working
+    return `${initialCount} ants starting work!`;
+  }
+
+  feed(name) {
+    const antsFed = this.ants.filter(ant => ant.name === name);
+    if (antsFed.length === 0) {
+      return `${name} not found!`;
+    }
+
+    antsFed.forEach(ant => {
+      ant.health += 15;
+    });
+
+    return "Yum!";
+  }
+    }
       // 🧠 Constructor takes **any** number of arguments, which are strings: the names of your ants
       // 🧠 Instances of AntFarm have an `ants` property holding an array of ants:
       //      * Each ant is an object with a `name` prop and a `health` prop that starts at 100
@@ -131,7 +247,7 @@
       // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
       //      and with the piece of mind of all tests passing, refactor to use map/filter
 
-    }
+    
 
     // 🧪 TESTS, do not make any changes below this line ===================
     // 🧪 TESTS, do not make any changes below this line ===================
